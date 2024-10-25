@@ -1,0 +1,74 @@
+/* Estilo personalizado para o cabeçalho */
+header {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input[type="color"] {
+    width: 50px; /* Define a largura desejada */
+    height: 30px; /* Define a altura desejada */
+    padding: 0; /* Remove o preenchimento interno */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Define o cursor como ponteiro */
+}
+
+.carousel-item {
+    height: 500px; /* Altura do carrossel */
+}
+
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    bottom: 20px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+
+/* Remove borda azul dos indicadores ao clicar */
+.carousel-indicators .active {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-indicators li {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo personalizado para a seção de destaque */
+.hero {
+    position: relative;
+}
+
+.hero .carousel-inner {
+    border-radius: 0.5rem; /* Adiciona bordas arredondadas, opcional */
+}
+
+/* Estilo personalizado para a seção de carros */
+.carros .card {
+    border: none;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Estilo personalizado para o rodapé */
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    display: none; /* Inicialmente oculto */
+    transition: opacity 0.5s ease;
+}
+
+footer.visible {
+    display: block; /* Visível quando a classe 'visible' é adicionada */
+}

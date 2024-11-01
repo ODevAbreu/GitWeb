@@ -79,6 +79,41 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        //var email = localStorage.getItem('email');
+        //if (!email) {
+        //    alert("Você precisa se autenticar");
+        //    location.href = 'login.html';
+        //}
+
+        const salvar = async () => {  
+            var nome = document.getElementById('nome').value; 
+            var email = document.getElementById('email')?.value;
+            var senha = document.getElementById('senha').value;
+            var confirmarsenha = document.getElementById('confirmarsenha').value;
+
+            console.log(email);
+            console.log(senha);
+            console.log(confirmarsenha);
+
+            var data = {
+                nome:nome,
+                email: email,
+                senha: senha,
+                confirmarsenha:confirmarsenha
+            }
+            
+            const response = await fetch(`http://localhost:3000/api/cadastrese`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });            
+            const result = await response.json();
+        }
+
+    </script>
 </head>
 <body>
     <header class="bg-dark text-white py-3">
@@ -112,11 +147,11 @@
         <div class="form-container">
             <h1>Cadastro</h1>
             <form>
-                <input type="text" placeholder="Nome completo" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="password" placeholder="Senha" required>
-                <input type="password" placeholder="Confirmar senha" required>
-                <button type="submit">Cadastrar</button>
+                <input type="text" id="nome" placeholder="Nome completo" required>
+                <input type="email" id="email" placeholder="E-mail" required>
+                <input type="password" id="senha" placeholder="Senha" required>
+                <input type="password" id="confirmarsenha" placeholder="Confirmar senha" required>
+                <button  onclick="salvar()" type="button">Cadastrar</button>
             </form>
             <a href="Login.html">Já tem uma conta? Faça login</a>
         </div>

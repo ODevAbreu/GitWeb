@@ -1,5 +1,4 @@
-CREATE DATABASE Veiculos; 
-USE Veiculos;
+
 
 CREATE TABLE Clientes (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,8 +27,7 @@ CREATE TABLE Veiculos (
     FOREIGN KEY (id_tipo) REFERENCES TipoVeiculo(id_tipo)
 );
 
-INSERT INTO Veiculos (tipo_veiculo, modelo, marca, ano, placa, preco_diaria, disponibilidade, id_tipo) VALUES
-('CARRO', '911', 'PORSHE', 2023, 'ABCDEFG', 1000.00, TRUE, 1);  
+
 
 CREATE TABLE Reservas (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,14 +40,13 @@ CREATE TABLE Reservas (
     FOREIGN KEY (id_veiculo) REFERENCES Veiculos(id_veiculo)
 );
 
-CREATE TABLE Carro (
-    id_carro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    placa VARCHAR(50) NOT NULL,
-    cor VARCHAR(30),
-    Lugares VARCHAR(50),
-    Modelo VARCHAR(30),
-    Marca VARCHAR(30),
-    Cambio VARCHAR(10)
+CREATE TABLE Avaliacoes (
+    id_avaliacao INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    id_veiculo INT NOT NULL,
+    nota INT CHECK (nota BETWEEN 1 AND 5),
+    comentario TEXT,
+    data_avaliacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+    FOREIGN KEY (id_veiculo) REFERENCES Veiculos(id_veiculo)
 );
-
-

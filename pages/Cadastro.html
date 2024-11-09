@@ -97,11 +97,12 @@
             console.log(email);
             console.log(senha);
 
-            var data = {
+            const data = {
                 nome:nome,
                 email: email,
                 cpf:cpf,
                 senha: senha,
+                telefone: telefone,
             }
             
             const response = await fetch(`http://localhost:3000/api/cadastro`, {
@@ -112,6 +113,7 @@
                 body: JSON.stringify(data),
             });            
             const result = await response.json();
+            console.log(result)
         }
 
     </script>
@@ -153,7 +155,6 @@
                 <input type="text" id="cpf" placeholder="CPF" required>
                 <input type="text" id="telefone" placeholder="telefone" required>
                 <input type="password" id="senha" placeholder="Senha" required>
-                <input type="password" id="confirmarsenha" placeholder="Confirmar senha" required>
                 <button  onclick="salvar()" type="button">Cadastrar</button>
             </form>
             <a href="Login.html">Já tem uma conta? Faça login</a>

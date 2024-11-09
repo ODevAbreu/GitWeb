@@ -89,21 +89,22 @@
         const salvar = async () => {  
             var nome = document.getElementById('nome').value; 
             var email = document.getElementById('email')?.value;
+            var cpf = document.getElementById('cpf').value;
+            var telefone = document.getElementById('telefone').value;
             var senha = document.getElementById('senha').value;
-            var confirmarsenha = document.getElementById('confirmarsenha').value;
 
+            console.log(nome);
             console.log(email);
             console.log(senha);
-            console.log(confirmarsenha);
 
             var data = {
                 nome:nome,
                 email: email,
+                cpf:cpf,
                 senha: senha,
-                confirmarsenha:confirmarsenha
             }
             
-            const response = await fetch(`http://localhost:3000/api/cadastrese`, {
+            const response = await fetch(`http://localhost:3000/api/cadastro`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -149,6 +150,8 @@
             <form>
                 <input type="text" id="nome" placeholder="Nome completo" required>
                 <input type="email" id="email" placeholder="E-mail" required>
+                <input type="text" id="cpf" placeholder="CPF" required>
+                <input type="text" id="telefone" placeholder="telefone" required>
                 <input type="password" id="senha" placeholder="Senha" required>
                 <input type="password" id="confirmarsenha" placeholder="Confirmar senha" required>
                 <button  onclick="salvar()" type="button">Cadastrar</button>

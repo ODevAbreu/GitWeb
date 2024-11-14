@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,54 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    <script>
+        const salvar = async () => {
+            var modelo = document.getElementById('modelo').value;
+            var marca = document.getElementById('marca')?.value;
+            var ano = document.getElementById('ano').value;
+            var placa = document.getElementById('placa').value;
+            var preco_diaria = document.getElementById('preco_diaria').value;
+            var tipo = document.getElementById('tipo').value;
+            var imagem = document.getElementById('imagem').files[0];
+
+            // const data = {
+            //     modelo: modelo,
+            //     marca: marca,
+            //     ano: ano,
+            //     placa: placa,
+            //     preco_diaria:preco_diaria,
+            //     tipo:tipo
+            // }
+            const formData = new FormData();
+                formData.append('modelo', modelo);
+                formData.append('marca', marca);
+                formData.append('ano', ano);
+                formData.append('placa', placa);
+                formData.append('preco_diaria', preco_diaria);
+                formData.append('tipo', tipo);
+                formData.append('imagem', imagem);
+
+            const response = await fetch(`http://localhost:3000/api/cadastro_carro_img`, {
+                method: "POST",
+                // headers: {
+                //     "Content-Type": "application/json",
+                // },
+                body: formData, //body: JSON.stringify(data), 
+            });
+            const result = await response.json();
+            console.log(result)
+        }
+    </script>
 </head>
+
 <body>
     <header class="bg-dark text-white py-3">
         <div class="container">
             <h1 class="text-center">Vehicle Legends</h1>
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <a class="navbar-brand" href="index.html">Início</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,114 +79,59 @@
         </div>
     </header>
 
-<div class="container mt-4">
-    <h1 class="mb-4">Gerenciamento de Carros</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Gerenciamento de Carros</h1>
 
-    <!-- Formulário para Adicionar Carro -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Adicionar Novo Carro</h5>
-            <form id="car-form">
-                <div class="form-group">
-                    <label for="carBrand">Marca</label>
-                    <input type="text" class="form-control" id="carBrand" required>
-                </div>
-                <div class="form-group">
-                    <label for="carModel">Modelo</label>
-                    <input type="text" class="form-control" id="carModel" required>
-                </div>
-                <div class="form-group">
-                    <label for="carYear">Ano</label>
-                    <input type="number" class="form-control" id="carYear" required>
-                </div>
-                <div class="form-group">
-                    <label for="carPrice">Preço por Dia</label>
-                    <input type="number" class="form-control" id="carPrice" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="carColor">Cor</label>
-                    <input type="color" class="form-control" id="carColor">
-                </div>
-                <button type="submit" class="btn btn-primary">Adicionar Carro</button>
-            </form>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Adicionar Novo Carro</h5>
+                <form>
+                    <div class="form-group">
+                        <label for="modelo">Modelo:</label>
+                        <input type="text" id="modelo" name="modelo" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marca">Marca:</label>
+                        <input type="text" id="marca" name="marca" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ano">Ano:</label>
+                        <input type="number" id="ano" name="ano" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="placa">Placa:</label>
+                        <input type="text" id="placa" name="placa" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preco_diaria">Preço da Diária:</label>
+                        <input type="number" id="preco_diaria" name="preco_diaria" class="form-control" step="0.01"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imagem">Imagem do Carro:</label>
+                        <input type="file" id="imagem" name="imagem" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo Veiculo:</label>
+                        <select id="tipo" name="tipo" class="form-control" required>
+                            <option value="1">Carro</option>
+                        </select>
+                    </div>
+
+                    <button onclick="salvar()" type="button" class="btn btn-primary">Salvar Veículo</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Tabela de Carros -->
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Lista de Carros</h5>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Ano</th>
-                        <th>Preço por Dia</th>
-                        <th>Cor</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="car-table-body">
-                    <!-- As linhas da tabela serão adicionadas aqui via JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Custom JS -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const carForm = document.getElementById('car-form');
-    const carTableBody = document.getElementById('car-table-body');
-    let carCount = 0;
-
-    carForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const brand = document.getElementById('carBrand').value;
-        const model = document.getElementById('carModel').value;
-        const year = document.getElementById('carYear').value;
-        const price = document.getElementById('carPrice').value;
-        const color = document.getElementById('carColor').value;
-
-        carCount++;
-        const row = `<tr>
-                        <td>${carCount}</td>
-                        <td>${brand}</td>
-                        <td>${model}</td>
-                        <td>${year}</td>
-                        <td>R$ ${price}</td>
-                        <td style="background-color: ${color};">${color}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editCar(${carCount})">Editar</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCar(this)">Excluir</button>
-                        </td>
-                    </tr>`;
-        carTableBody.insertAdjacentHTML('beforeend', row);
-
-        // Clear form
-        carForm.reset();
-    });
-
-    window.editCar = function(id) {
-        alert('Função de editar carro não implementada');
-    };
-
-    window.deleteCar = function(button) {
-        if (confirm('Tem certeza de que deseja excluir este carro?')) {
-            button.parentElement.parentElement.remove();
-        }
-    };
-});
-
-</script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,43 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+<script>
+    async function logout() {
+        const response = await fetch('http://localhost:3000/api/logout', {
+            method: 'GET',
+            credentials: 'same-origin'  // Garante que o cookie da sessão seja enviado
+        });
+
+        if (response.status === 200) {
+            // Se o logout for bem-sucedido, redireciona para a página de login 
+            window.location.href = '/login.html'; // ou qualquer outra página
+        } else {
+            console.log("Erro ao deslogar");
+        }
+    }
+    // Função para verificar a sessão
+    async function verificarSessao() {
+        const response = await fetch('http://localhost:3000/api/protected', {
+            method: 'GET',
+            credentials: 'same-origin' // Garante que os cookies de sessão sejam enviados
+        });
+
+        if (response.status === 401) {
+            // Usuário não autenticado
+            console.log("nao logou") // não redireciona que nao esta logado
+            document.getElementById('logout').style.display = 'none';
+        } else {
+            //Usuario Logado
+            const data = await response.json();
+            document.getElementById('login-item').style.display = 'none';
+            document.getElementById('usuario').textContent = `Bem-vindo, ${data.usuario.nome}`;
+
+        }
+    }
+    // Chama a função para verificar a sessão quando a página carregar
+    verificarSessao();
+</script>
+
 <body>
     <!-- Cabeçalho -->
     <header class="bg-dark text-white py-3">
@@ -14,7 +52,8 @@
             <h1 class="text-center">Vehicle Legends</h1>
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <a class="navbar-brand" href="index.html">Início</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -31,9 +70,22 @@
                         <li class="nav-item">
                             <a class="nav-link" href="CRUD.html">Cadastro Carro</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.html">Login</a>
+                        <li class="nav-item" id="login-item">
+                            <a class="nav-link" id="login" href="login.html">Login</a>
                         </li>
+                        <li id="nav-item">
+                            <p class="nav-link" id="usuario"></p>
+                        </li>
+                        <li id="nav-item">
+                            <a class="nav-link" id="logout" onclick="logout()">Logout</a>
+                        </li>
+                        <li class="nav-item" id="alterar">
+                            <a class="nav-link" href="alterar_cli.html">Alterar</a>
+                        </li>
+                        <li class="nav-item" id="alterar">
+                            <a class="nav-link" href="deletar_cli.html">Deletar</a>
+                        </li>
+
                     </ul>
                 </div>
             </nav>
@@ -44,38 +96,8 @@
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-4">Nossos Carros</h2>
-            <div class="row">
-                <!-- Carro 1 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/ferr.jfif" class="card-img-top" alt="Ferrari">
-                        <div class="card-body">
-                            <h5 class="card-title">Ferrari</h5>
-                            <p class="card-text">Experimente a emoção de dirigir uma Ferrari.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Carro 2 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/lambo.jfif" class="card-img-top" alt="Lamborghini">
-                        <div class="card-body">
-                            <h5 class="card-title">Lamborghini</h5>
-                            <p class="card-text">Desfrute de uma experiência única com Lamborghini.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Carro 3 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/porsh.jfif" class="card-img-top" alt="Porsche">
-                        <div class="card-body">
-                            <h5 class="card-title">Porsche</h5>
-                            <p class="card-text">Sinta o poder de um Porsche em suas mãos.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Adicione mais carros aqui conforme necessário -->
+            <div class="row" id="carros-container">
+
             </div>
         </div>
     </section>
@@ -85,9 +107,51 @@
         <p>&copy; 2024 Vehicle Legends. Todos os direitos reservados.</p>
     </footer>
 
+
+    <script>
+        async function carregarCarros() {
+            const response = await fetch('http://localhost:3000/api/select_car', {
+                method: 'GET',
+                credentials: 'same-origin' // Garante que os cookies de sessão sejam enviados
+            });
+            if (response.status === 401) {
+                console.log("nao worked")
+            } else {
+
+                const data = await response.json();
+                console.log(data);
+                const carrosContainer = document.getElementById('carros-container');
+                
+                data.forEach(car => {
+                    // Criando o HTML dinamicamente para cada carro
+                    const carroCard = `
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="/${car.imagem}" class="card-img-top" alt="${car.modelo}">
+                        <div class="card-body">
+                            <h5 class="card-title">${car.modelo}</h5>
+                            <p class="card-text">Marca:${car.marca}</p>
+                            <p class="card-text">Ano:${car.ano}</p>
+                            <p class="card-text">Preço diaria: R$${car.preco_diaria} </p>
+                            <a class="card-text" href="alterar_carro.html?id=${car.id_veiculo}">Alterar</a>
+                            <a class="card-text" href="deletar_carro.html?id=${car.id_veiculo}" style="color: red;">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                    // Adicionando o novo cartão no container
+                    carrosContainer.innerHTML += carroCard;
+                });
+            }
+        }
+        carregarCarros();
+    </script>
+
     <!-- Scripts do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

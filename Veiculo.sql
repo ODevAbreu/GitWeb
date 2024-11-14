@@ -16,7 +16,6 @@ CREATE TABLE TipoVeiculo (
 
 CREATE TABLE Veiculos (
     id_veiculo INT AUTO_INCREMENT PRIMARY KEY,
-    tipo_veiculo VARCHAR(50) NOT NULL,
     modelo VARCHAR(100) NOT NULL,
     marca VARCHAR(50) NOT NULL,
     ano INT NOT NULL CHECK (ano >= 1886),

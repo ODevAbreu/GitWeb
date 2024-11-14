@@ -12,41 +12,35 @@
     async function logout() {
         const response = await fetch('http://localhost:3000/api/logout', {
             method: 'GET',
-            credentials: 'same-origin'  // Garante que o cookie da sessão seja enviado
+            credentials: 'same-origin'
         });
 
         if (response.status === 200) {
-            // Se o logout for bem-sucedido, redireciona para a página de login 
-            window.location.href = '/login.html'; // ou qualquer outra página
+            window.location.href = '/login.html';
         } else {
             console.log("Erro ao deslogar");
         }
     }
-    // Função para verificar a sessão
+
     async function verificarSessao() {
         const response = await fetch('http://localhost:3000/api/protected', {
             method: 'GET',
-            credentials: 'same-origin' // Garante que os cookies de sessão sejam enviados
+            credentials: 'same-origin'
         });
 
         if (response.status === 401) {
-            // Usuário não autenticado
-            console.log("nao logou") // não redireciona que nao esta logado
             document.getElementById('logout').style.display = 'none';
         } else {
-            //Usuario Logado
             const data = await response.json();
             document.getElementById('login-item').style.display = 'none';
             document.getElementById('usuario').textContent = `Bem-vindo, ${data.usuario.nome}`;
-
         }
     }
-    // Chama a função para verificar a sessão quando a página carregar
+
     verificarSessao();
 </script>
 
 <body>
-    <!-- Cabeçalho -->
     <header class="bg-dark text-white py-3">
         <div class="container">
             <h1 class="text-center">Vehicle Legends</h1>
@@ -85,62 +79,55 @@
                         <li class="nav-item" id="alterar">
                             <a class="nav-link" href="deletar_cli.html">Deletar</a>
                         </li>
-
                     </ul>
                 </div>
             </nav>
         </div>
     </header>
 
-    <!-- Seção Carros -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-4">Nossos Carros</h2>
             <div class="row" id="carros-container">
-
             </div>
         </div>
     </section>
 
-    <!-- Rodapé -->
     <footer id="footer" class="bg-dark text-white text-center py-3 mt-5">
         <p>&copy; 2024 Vehicle Legends. Todos os direitos reservados.</p>
     </footer>
-
 
     <script>
         async function carregarCarros() {
             const response = await fetch('http://localhost:3000/api/select_car', {
                 method: 'GET',
-                credentials: 'same-origin' // Garante que os cookies de sessão sejam enviados
+                credentials: 'same-origin'
             });
-            if (response.status === 401) {
-                console.log("nao worked")
-            } else {
 
+            if (response.status === 401) {
+                console.log("Erro ao carregar carros");
+            } else {
                 const data = await response.json();
-                console.log(data);
                 const carrosContainer = document.getElementById('carros-container');
                 
                 data.forEach(car => {
-                    // Criando o HTML dinamicamente para cada carro
                     const carroCard = `
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <img src="/${car.imagem}" class="card-img-top" alt="${car.modelo}">
                         <div class="card-body">
                             <h5 class="card-title">${car.modelo}</h5>
-                            <p class="card-text">Marca:${car.marca}</p>
-                            <p class="card-text">Ano:${car.ano}</p>
-                            <p class="card-text">Preço diaria: R$${car.preco_diaria} </p>
-                            <a class="card-text" href="alterar_carro.html?id=${car.id_veiculo}">Alterar</a>
-                            <a class="card-text" href="deletar_carro.html?id=${car.id_veiculo}" style="color: red;">Excluir</a>
+                            <p class="card-text">Marca: ${car.marca}</p>
+                            <p class="card-text">Ano: ${car.ano}</p>
+                            <p class="card-text">Preço diária: R$${car.preco_diaria}</p>
+                            <a class="btn btn-primary" href="alugar_carro.html?id=${car.id_veiculo}">Alugar</a>
+                            <a class="btn btn-secondary" href="alterar_carro.html?id=${car.id_veiculo}">Alterar</a>
+                            <a class="btn btn-danger" href="deletar_carro.html?id=${car.id_veiculo}">Excluir</a>
                         </div>
                     </div>
                 </div>
             `;
 
-                    // Adicionando o novo cartão no container
                     carrosContainer.innerHTML += carroCard;
                 });
             }
@@ -148,7 +135,6 @@
         carregarCarros();
     </script>
 
-    <!-- Scripts do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

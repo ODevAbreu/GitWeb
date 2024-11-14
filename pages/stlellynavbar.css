@@ -1,0 +1,93 @@
+/* Estilos para a navbar */
+header {
+    background: linear-gradient(135deg, #333, #555); /* Gradiente para o fundo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+    color: #f7f7f7;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+.navbar-brand:hover {
+    color: #ffce00;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 10px;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #ffce00;
+    color: #333;
+    border-radius: 5px;
+}
+
+/* Estilo para o botão do menu responsivo */
+.navbar-toggler {
+    border-color: #0b75d8;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%281,1,1,1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22' /%3E%3C/svg%3E");
+}
+
+.navbar-toggler:hover .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%280, 0, 0, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22' /%3E%3C/svg%3E");
+}
+
+/* Estilos adicionais para links e botões específicos */
+#login, #logout, #alterar .nav-link {
+    font-weight: 600;
+}
+
+#login:hover, #logout:hover, #alterar:hover {
+    color: #ffce00;
+}
+
+/* Estilo para o nome do usuário */
+#usuario {
+    color: #ffce00;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 10px;
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        padding: 8px;
+    }
+    #usuario {
+        font-size: 0.9rem;
+    }
+}

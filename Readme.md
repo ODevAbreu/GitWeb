@@ -1,3 +1,7 @@
-OLA
+Projeto de Web de Front end e backend com uma integração de banco de dados mysql do grande professor Cleverson !!
 
-aula de hj 31 e 7 reservou para evoluirem no trabalho, no dia 14 e 21 apresentações, nosso grupo apresenta 14
+Feito Pelos Estudantes de BSI :
+
+Rogerio de Abreu Mar 
+Felipe da Veiga Gomes 
+Logan ail Bernardes Borges 

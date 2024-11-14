@@ -6,15 +6,55 @@
     <title>Sobre Nós - Vehicle Legends</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stlellynavbar.css">
+
 </head>
 <body>
+<script> 
+    async function logout() {
+        const response = await fetch('http://localhost:3000/api/logout', {
+            method: 'GET',
+            credentials: 'same-origin'  // Garante que o cookie da sessão seja enviado
+        });
+
+        if (response.status === 200) {
+            // Se o logout for bem-sucedido, redireciona para a página de login 
+            window.location.href = '/login.html'; // ou qualquer outra página
+        } else {
+            console.log("Erro ao deslogar");
+        }
+    }
+    // Função para verificar a sessão
+    async function verificarSessao() {
+        const response = await fetch('http://localhost:3000/api/protected', {
+            method: 'GET',
+            credentials: 'same-origin' // Garante que os cookies de sessão sejam enviados
+        });
+
+        if (response.status === 401) {
+            // Usuário não autenticado
+            console.log("nao logou") // não redireciona que nao esta logado
+            document.getElementById('logout').style.display = 'none';
+        } else {
+            //Usuario Logado
+            const data = await response.json();
+            document.getElementById('login-item').style.display = 'none';
+            document.getElementById('usuario').textContent = `Bem-vindo, ${data.usuario.nome}`;
+
+        }
+    }
+    // Chama a função para verificar a sessão quando a página carregar
+    verificarSessao();
+
+</script>
     <!-- Cabeçalho -->
     <header class="bg-dark text-white py-3">
         <div class="container">
             <h1 class="text-center">Vehicle Legends</h1>
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <a class="navbar-brand" href="index.html">Início</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,20 +62,37 @@
                         <li class="nav-item">
                             <a class="nav-link" href="index.html">Home</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="sobre.html">Sobre</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="carros.html">Carros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.html">Login</a>
+                            <a class="nav-link" href="CRUD.html">Cadastro Carro</a>
                         </li>
+                        <li class="nav-item" id="login-item">
+                            <a class="nav-link" id="login" href="login.html">Login</a>
+                        </li>
+                        <li id="nav-item">
+                            <p class="nav-link" id="usuario"></p>
+                        </li>
+                        <li id="nav-item">
+                            <a class="nav-link" id="logout" onclick="logout()">Logout</a>
+                        </li>
+                        <li class="nav-item" id="alterar">
+                            <a class="nav-link" href="alterar_cli.html">Alterar</a>
+                        </li>
+                        <li class="nav-item" id="alterar">
+                            <a class="nav-link" href="deletar_cli.html">Deletar</a>
+                        </li>
+
                     </ul>
                 </div>
             </nav>
         </div>
     </header>
+
 
     <!-- Seção Sobre -->
     <section class="py-5">
